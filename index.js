@@ -1,14 +1,16 @@
-const { Telegraf } = require('telegraf');
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config({path: './config.env'});
 
+const {Telegraf} = require('telegraf');
 const bot = new Telegraf(process.env.BOT_TOKEN);
+const axios = require('axios');
 
 bot.start((ctx) => {
     ctx.reply('Hello!!! This is the Cyborg bot\ntype /help to get details of the commands');
 })
 
 bot.command('/help', ctx => {
-    ctx.reply("As this is a new bot, it comes with very limited functionality as of yet.\n Type /Hi to recieve a Hello message \n Type /developer to know about the developer \n Type /intro to know more about me\n Type /day to get current day");    
+    ctx.reply("As this is a new bot, it comes with very limited functionality as of yet.\n Type /Hi to recieve a Hello message \n Type /developer to know about the developer \n Type /intro to know more about me\n Type /DevTalks to list the upcoming dev talks");    
 })
 
 bot.command('Hi', ctx => {
@@ -23,32 +25,17 @@ bot.command('developer', ctx=> {
     ctx.reply("I have been developed by Shreyash !!!");
 })
 
-bot.command('dog', ctx=> {
-    ctx.replyWithPhoto({url: 'https://dog.ceo/api/breeds/image/random'});
+bot.command('DevTalks', ctx => {
+    axios.get(`https://api.github.com/repos/COPS-IITBHU/DevTalks/issues`).then(res => {
+        const result = res.data;
+        if(result.length == 0) {
+            ctx.reply('No upcoming dev talks');
+        }
+        let msg = result.map(el => `[${el.title}](${el.html_url}) by [${el.user.login}](${el.user.html_url})`);
+        ctx.replyWithMarkdown(msg.join('\n\n')).catch(err => {
+            return ctx.reply('Sorry there was some error');
+        })
+    })
 })
-
-
-bot.command('day', ctx => {
-    const curDate = new Date();
-    const date = curDate.getDate();
-    const day = curDate.getDay();
-    const month = curDate.getMonth();
-    const year = curDate.getFullYear();
-    const dayMap = {
-        0: 'Sunday',
-        1: 'Monday',
-        2: 'Tuesday',
-        3: 'Wednesday',
-        4: 'Thursday',
-        5: 'Friday',
-        6: 'Saturday'
-    }
-    ctx.reply(`Today is ${date}/${month+1}/${year}, and the day is ${dayMap[day]}`);
-})
-
-// bot.command('sortingHat', async (ctx) => {
-//     const house = await fetch('https://www.potterapi.com/v1/sortingHat');
-//     ctx.reply(`You have been inducted into the house of ${house}`);
-// })
 
 bot.launch();
