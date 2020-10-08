@@ -58,4 +58,24 @@ bot.command('day', ctx => {
         + dayString.slice(10, 15));      // Year
 })
 
+// const evresp = (gevent) => {
+//     switch(gevent) {
+//         case "issuues":
+//             return `
+//                 Issue Title and Number  : ${process.env.INPUT_IU_TITLE} | #${process.env.INPUT_IU_NUM}
+//                 Commented or Created By : \`${process.env.INPUT_IU_ACTOR}\`
+//                 Issue Body : *${process.env.INPUT_IU_BODY}*
+//                 [Link to Issue](https://github.com/${process.env.GITHUB_REPOSITORY}/issues/${process.env.INPUT_IU_NUM})
+//                 [Link to Repo ](https://github.com/${process.env.GITHUB_REPOSITORY}/)
+//             `
+//         default:
+//             return `
+//                 Repository:${process.env.GITHUB_REPOSITORY}
+//             `
+//     }
+// }
+
+// const output = evresp(process.env.GITHUB_EVENT_NAME)
+// bot.telegram.sendMessage(process.env.MY_ID,output,{parse_mode : "Markdown"})
+
 bot.launch();
