@@ -20,11 +20,11 @@ bot.command('Hi', ctx => {
 })
 
 bot.command('intro', ctx => {
-    ctx.reply('Hello!!! My name is cyborg bot. I am 0 years old');
+    ctx.reply('Hello!!! My name is Lucy. I am 0 years old');
 })
 
 bot.command('developer', ctx => {
-    ctx.reply("I have been developed by Shreyash !!!");
+    ctx.reply("I have been developed by Shreyash!!!");
 })
 
 bot.command('DevTalks', ctx => {
